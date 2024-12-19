@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Profile Newsletter</title>
+  <!-- External Libraries -->
+  <link href="https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <!-- Custom CSS and JS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header Section -->
+    <header class="app-header">
+      <div class="app-header-left">
+        <span class="app-icon"></span>
+        <h1 class="app-name">GitHub Analytics</h1>
+        <div class="search-wrapper">
+          <input class="search-input" type="text" placeholder="Search repositories...">
+          <button class="search-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <div class="app-header-right">
+        <button class="mode-switch" title="Switch Theme">
+          <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+        </button>
+        <div class="profile-info">
+          <img id="avatar" alt="Profile Picture" />
+          <span id="username"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="app-content">
+      <!-- Sidebar -->
+      <nav class="app-sidebar">
+        <a href="#overview" class="app-sidebar-link active">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </a>
+        <a href="#repositories" class="app-sidebar-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+        </a>
+        <a href="#activity" class="app-sidebar-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </a>
+      </nav>
+
+      <!-- Main Section -->
+      <div class="projects-section">
+        <div class="projects-section-header">
+          <p>GitHub Analytics Overview</p>
+          <p class="time" id="current-date"></p>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="projects-section-line">
+          <div class="projects-status">
+            <div class="item-status">
+              <span class="status-number" id="repo-count">0</span>
+              <span class="status-type">Repositories</span>
+            </div>
+            <div class="item-status">
+              <span class="status-number" id="followers-count">0</span>
+              <span class="status-type">Followers</span>
+            </div>
+            <div class="item-status">
+              <span class="status-number" id="following-count">0</span>
+              <span class="status-type">Following</span>
+            </div>
+            <div class="item-status">
+              <span class="status-number" id="total-commits">0</span>
+              <span class="status-type">Total Commits</span>
+            </div>
+          </div>
+
+          <div class="view-actions">
+            <button class="view-btn list-view" title="List View">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="8" y1="6" x2="21" y2="6"/>
+                <line x1="8" y1="12" x2="21" y2="12"/>
+                <line x1="8" y1="18" x2="21" y2="18"/>
+                <line x1="3" y1="6" x2="3.01" y2="6"/>
+                <line x1="3" y1="12" x2="3.01" y2="12"/>
+                <line x1="3" y1="18" x2="3.01" y2="18"/>
+              </svg>
+            </button>
+            <button class="view-btn grid-view active" title="Grid View">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Project Boxes -->
+        <div class="project-boxes jsGridView">
+          <!-- Contribution Calendar -->
+          <div class="project-box-wrapper">
+            <div class="project-box">
+              <div class="project-box-header">
+                <span>Contribution Activity</span>
+              </div>
+              <div id="contribution-calendar" class="contribution-calendar"></div>
+            </div>
+          </div>
+
+          <!-- Language Distribution -->
+          <div class="project-box-wrapper">
+            <div class="project-box">
+              <div class="project-box-header">
+                <span>Language Distribution</span>
+              </div>
+              <canvas id="language-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Commit Activity -->
+          <div class="project-box-wrapper">
+            <div class="project-box">
+              <div class="project-box-header">
+                <span>Commit Activity</span>
+              </div>
+              <canvas id="commit-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Repository Growth -->
+          <div class="project-box-wrapper">
+            <div class="project-box">
+              <div class="project-box-header">
+                <span>Repository Growth</span>
+              </div>
+              <canvas id="repo-growth-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity Feed -->
+      <div class="messages-section">
+        <button class="messages-close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="15" y1="9" x2="9" y2="15"/>
+            <line x1="9" y1="9" x2="15" y2="15"/>
+          </svg>
+        </button>
+        <div class="projects-section-header">
+          <p>Recent Activity</p>
+        </div>
+        <div class="messages" id="activity-feed"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div class="loading">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- Custom JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
